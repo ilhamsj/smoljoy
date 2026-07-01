@@ -17,6 +17,11 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    autoLogin: {
+      prefillOnly: true,
+      email: 'dev@example.com',
+      password: 'dev@example.com',
+    },
   },
   collections: [Users, Media],
   editor: lexicalEditor(),
@@ -29,4 +34,10 @@ export default buildConfig({
   }),
   sharp,
   plugins: [],
+  bin: [
+    {
+      scriptPath: path.resolve(dirname, 'payload/bin/seed.ts'),
+      key: 'seed',
+    },
+  ],
 })
