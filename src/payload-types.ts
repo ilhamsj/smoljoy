@@ -69,15 +69,36 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    breeds: Breed;
+    breeders: Breeder;
+    'parent-animals': ParentAnimal;
+    litters: Litter;
+    pets: Pet;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    breeders: {
+      litters: 'litters';
+    };
+    'parent-animals': {
+      littersAsDam: 'litters';
+      littersAsSire: 'litters';
+    };
+    litters: {
+      puppies: 'pets';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    breeds: BreedsSelect<false> | BreedsSelect<true>;
+    breeders: BreedersSelect<false> | BreedersSelect<true>;
+    'parent-animals': ParentAnimalsSelect<false> | ParentAnimalsSelect<true>;
+    litters: LittersSelect<false> | LittersSelect<true>;
+    pets: PetsSelect<false> | PetsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -162,6 +183,279 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "breeds".
+ */
+export interface Breed {
+  id: string;
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  species: 'dog' | 'cat';
+  /**
+   * Breed grouping, e.g. toy/working for dogs, longhair/shorthair for cats
+   */
+  group?:
+    | ('toy' | 'working' | 'herding' | 'sporting' | 'hound' | 'terrier' | 'non-sporting' | 'longhair' | 'shorthair')
+    | null;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "breeders".
+ */
+export interface Breeder {
+  id: string;
+  user: string | User;
+  businessName: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  avatar?: (string | null) | Media;
+  coverImage?: (string | null) | Media;
+  breeds?: (string | Breed)[] | null;
+  location?: {
+    address?: string | null;
+    city?: string | null;
+    state?: string | null;
+    zip?: string | null;
+    country?: string | null;
+    /**
+     * @minItems 2
+     * @maxItems 2
+     */
+    coordinates?: [number, number] | null;
+  };
+  yearsExperience?: number | null;
+  certifications?:
+    | {
+        name: string;
+        issuer?: string | null;
+        document?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  policies?: {
+    healthGuarantee?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    depositPolicy?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    returnPolicy?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  verificationStatus?: ('pending' | 'verified' | 'rejected') | null;
+  verifiedAt?: string | null;
+  contactPhone?: string | null;
+  litters?: {
+    docs?: (string | Litter)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  status?: ('active' | 'suspended') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "litters".
+ */
+export interface Litter {
+  id: string;
+  label: string;
+  breeder: string | Breeder;
+  breed: string | Breed;
+  dam?: (string | null) | ParentAnimal;
+  sire?: (string | null) | ParentAnimal;
+  dateOfBirth?: string | null;
+  expectedReadyDate?: string | null;
+  totalPuppies?: number | null;
+  puppies?: {
+    docs?: (string | Pet)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  priceMin?: number | null;
+  priceMax?: number | null;
+  healthClearances?:
+    | {
+        test: string;
+        result?: string | null;
+        document?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  coverImages?: (string | Media)[] | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  status?: ('planned' | 'born' | 'available' | 'sold-out') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "parent-animals".
+ */
+export interface ParentAnimal {
+  id: string;
+  name: string;
+  breeder: string | Breeder;
+  breed: string | Breed;
+  sire?: (string | null) | ParentAnimal;
+  dam?: (string | null) | ParentAnimal;
+  pedigreeDocument?: (string | null) | Media;
+  healthClearances?:
+    | {
+        test: string;
+        result?: string | null;
+        document?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  images?: (string | Media)[] | null;
+  littersAsDam?: {
+    docs?: (string | Litter)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  littersAsSire?: {
+    docs?: (string | Litter)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pets".
+ */
+export interface Pet {
+  id: string;
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  litter?: (string | null) | Litter;
+  breeder: string | Breeder;
+  breed: string | Breed;
+  gender: 'male' | 'female';
+  dateOfBirth?: string | null;
+  color?: string | null;
+  weight?: number | null;
+  price?: number | null;
+  depositAmount?: number | null;
+  status?: ('available' | 'reserved' | 'sold' | 'not-for-sale') | null;
+  images?: (string | Media)[] | null;
+  vaccinations?:
+    | {
+        name: string;
+        date?: string | null;
+        document?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  microchipped?: boolean | null;
+  /**
+   * e.g. AKC, CKC, CFA, TICA
+   */
+  registryName?: string | null;
+  temperamentNotes?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  reservedBy?: (string | null) | User;
+  reservedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -191,6 +485,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'breeds';
+        value: string | Breed;
+      } | null)
+    | ({
+        relationTo: 'breeders';
+        value: string | Breeder;
+      } | null)
+    | ({
+        relationTo: 'parent-animals';
+        value: string | ParentAnimal;
+      } | null)
+    | ({
+        relationTo: 'litters';
+        value: string | Litter;
+      } | null)
+    | ({
+        relationTo: 'pets';
+        value: string | Pet;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -272,6 +586,157 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "breeds_select".
+ */
+export interface BreedsSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
+  species?: T;
+  group?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "breeders_select".
+ */
+export interface BreedersSelect<T extends boolean = true> {
+  user?: T;
+  businessName?: T;
+  generateSlug?: T;
+  slug?: T;
+  bio?: T;
+  avatar?: T;
+  coverImage?: T;
+  breeds?: T;
+  location?:
+    | T
+    | {
+        address?: T;
+        city?: T;
+        state?: T;
+        zip?: T;
+        country?: T;
+        coordinates?: T;
+      };
+  yearsExperience?: T;
+  certifications?:
+    | T
+    | {
+        name?: T;
+        issuer?: T;
+        document?: T;
+        id?: T;
+      };
+  policies?:
+    | T
+    | {
+        healthGuarantee?: T;
+        depositPolicy?: T;
+        returnPolicy?: T;
+      };
+  verificationStatus?: T;
+  verifiedAt?: T;
+  contactPhone?: T;
+  litters?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "parent-animals_select".
+ */
+export interface ParentAnimalsSelect<T extends boolean = true> {
+  name?: T;
+  breeder?: T;
+  breed?: T;
+  sire?: T;
+  dam?: T;
+  pedigreeDocument?: T;
+  healthClearances?:
+    | T
+    | {
+        test?: T;
+        result?: T;
+        document?: T;
+        id?: T;
+      };
+  images?: T;
+  littersAsDam?: T;
+  littersAsSire?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "litters_select".
+ */
+export interface LittersSelect<T extends boolean = true> {
+  label?: T;
+  breeder?: T;
+  breed?: T;
+  dam?: T;
+  sire?: T;
+  dateOfBirth?: T;
+  expectedReadyDate?: T;
+  totalPuppies?: T;
+  puppies?: T;
+  priceMin?: T;
+  priceMax?: T;
+  healthClearances?:
+    | T
+    | {
+        test?: T;
+        result?: T;
+        document?: T;
+        id?: T;
+      };
+  coverImages?: T;
+  description?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pets_select".
+ */
+export interface PetsSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
+  litter?: T;
+  breeder?: T;
+  breed?: T;
+  gender?: T;
+  dateOfBirth?: T;
+  color?: T;
+  weight?: T;
+  price?: T;
+  depositAmount?: T;
+  status?: T;
+  images?: T;
+  vaccinations?:
+    | T
+    | {
+        name?: T;
+        date?: T;
+        document?: T;
+        id?: T;
+      };
+  microchipped?: T;
+  registryName?: T;
+  temperamentNotes?: T;
+  reservedBy?: T;
+  reservedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

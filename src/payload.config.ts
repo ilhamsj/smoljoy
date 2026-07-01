@@ -5,6 +5,11 @@ import { Media } from './collections/Media'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { Users } from './collections/Users'
+import { Breeds } from './collections/Breeds'
+import { Breeders } from './collections/Breeders'
+import { ParentAnimals } from './collections/ParentAnimals'
+import { Litters } from './collections/Litters'
+import { Pets } from './collections/Pets'
 import path from 'path'
 import sharp from 'sharp'
 
@@ -23,7 +28,7 @@ export default buildConfig({
       password: 'dev@example.com',
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Breeds, Breeders, ParentAnimals, Litters, Pets],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
