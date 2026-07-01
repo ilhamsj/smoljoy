@@ -10,6 +10,7 @@ import { Breeders } from './collections/Breeders'
 import { ParentAnimals } from './collections/ParentAnimals'
 import { Litters } from './collections/Litters'
 import { Pets } from './collections/Pets'
+import { syncToAlgoliaTask } from './payload/jobs/syncToAlgolia'
 import path from 'path'
 import sharp from 'sharp'
 
@@ -17,6 +18,9 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  onInit: async (payload) => {
+    payload.logger.info('Payload initialized')
+  },
   admin: {
     user: Users.slug,
     importMap: {
@@ -37,6 +41,25 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
+  jobs: {
+    jobsCollectionOverrides: ({ defaultJobsCollection }) => {
+      if (!defaultJobsCollection.admin) {
+        defaultJobsCollection.admin = {}
+      }
+
+      defaultJobsCollection.admin.hidden = false
+      return defaultJobsCollection
+    },
+    deleteJobOnComplete: false,
+    tasks: [syncToAlgoliaTask],
+    autoRun: [
+      {
+        cron: '* * * * *',
+        limit: 20,
+        queue: 'default',
+      },
+    ],
+  },
   sharp,
   plugins: [
     s3Storage({

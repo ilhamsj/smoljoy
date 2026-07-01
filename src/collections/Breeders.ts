@@ -1,5 +1,19 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from 'payload'
+import type { Breeder } from '@/payload-types'
+import { algoliaSyncHooks } from '@/payload/hooks/algoliaSync'
+import { relationField } from '@/lib/relation'
+
+const breederHooks = algoliaSyncHooks<Breeder>('breeders', (doc) => ({
+  businessName: doc.businessName,
+  slug: doc.slug,
+  city: doc.location?.city,
+  state: doc.location?.state,
+  breeds: doc.breeds?.map((b) => relationField(b, 'name')).filter(Boolean),
+  verificationStatus: doc.verificationStatus,
+  status: doc.status,
+  image: relationField(doc.avatar, 'url'),
+}))
 
 export const Breeders: CollectionConfig = {
   slug: 'breeders',
@@ -10,6 +24,7 @@ export const Breeders: CollectionConfig = {
   access: {
     read: () => true,
   },
+  hooks: breederHooks,
   fields: [
     { name: 'user', type: 'relationship', relationTo: 'users', required: true, unique: true },
     { name: 'businessName', type: 'text', required: true },
