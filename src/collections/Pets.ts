@@ -2,19 +2,9 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from 'payload'
 import type { Pet } from '@/payload-types'
 import { algoliaSyncHooks } from '@/payload/hooks/algoliaSync'
-import { relationField, relationId } from '@/lib/relation'
+import { petToRecord } from '@/payload/algolia/records'
 
-const petHooks = algoliaSyncHooks<Pet>('pets', (doc) => ({
-  name: doc.name,
-  slug: doc.slug,
-  breed: relationField(doc.breed, 'name'),
-  breederId: relationId(doc.breeder),
-  breederName: relationField(doc.breeder, 'businessName'),
-  gender: doc.gender,
-  price: doc.price,
-  status: doc.status,
-  image: relationField(doc.images?.[0], 'url'),
-}))
+const petHooks = algoliaSyncHooks<Pet>('pets', petToRecord)
 
 export const Pets: CollectionConfig = {
   slug: 'pets',

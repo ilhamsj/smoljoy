@@ -83,5 +83,9 @@ export default buildConfig({
       scriptPath: path.resolve(dirname, 'payload/bin/seed/index.ts'),
       key: 'seed',
     },
+    {
+      scriptPath: path.resolve(dirname, 'payload/bin/reindex/index.ts'),
+      key: 'reindex',
+    },
   ],
 })
