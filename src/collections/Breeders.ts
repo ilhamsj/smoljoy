@@ -29,8 +29,17 @@ export const Breeders: CollectionConfig = {
       type: 'group',
       fields: [
         { name: 'address', type: 'text' },
-        { name: 'city', type: 'text' },
         { name: 'province', type: 'relationship', relationTo: 'provinces' },
+        {
+          name: 'city',
+          type: 'relationship',
+          relationTo: 'cities',
+          filterOptions: ({ siblingData }) => {
+            const data = siblingData as { province?: string | null }
+            if (!data?.province) return true
+            return { province: { equals: data.province } }
+          },
+        },
         { name: 'zip', type: 'text' },
         { name: 'coordinates', type: 'point' },
       ],

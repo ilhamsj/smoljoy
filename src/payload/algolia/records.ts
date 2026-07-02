@@ -1,5 +1,6 @@
 import type { Breeder, Litter, Pet } from '@/payload-types'
 import { relationField, relationId } from '@/lib/relation'
+import { formatCityName } from '@/lib/format'
 
 export const petToRecord = (doc: Pet) => ({
   objectID: String(doc.id),
@@ -31,7 +32,7 @@ export const breederToRecord = (doc: Breeder) => ({
   objectID: String(doc.id),
   businessName: doc.businessName,
   slug: doc.slug,
-  city: doc.location?.city,
+  city: formatCityName(relationField(doc.location?.city, 'name')),
   province: relationField(doc.location?.province, 'name'),
   breeds: doc.breeds?.map((b) => relationField(b, 'name')).filter(Boolean),
   verificationStatus: doc.verificationStatus,

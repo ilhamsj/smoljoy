@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import { userSeed } from './users'
 import { breedSeed } from './breeds'
 import { provinceSeed } from './provinces'
+import { citySeed } from './cities'
 import { breederSeed } from './breeders'
 import { parentAnimalSeed } from './parentAnimals'
 import { litterSeed } from './litters'
@@ -12,7 +13,8 @@ async function seed(payload: BasePayload) {
   await userSeed(payload)
   const breeds = await breedSeed(payload)
   const provinces = await provinceSeed(payload)
-  const breeders = await breederSeed(payload, breeds, provinces)
+  const cities = await citySeed(payload, provinces)
+  const breeders = await breederSeed(payload, breeds, provinces, cities)
   const parentAnimals = await parentAnimalSeed(payload, breeders)
   const litters = await litterSeed(payload, breeders, parentAnimals)
   await petSeed(payload, litters)

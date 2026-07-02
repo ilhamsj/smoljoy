@@ -1,13 +1,16 @@
-import type { Breed, Breeder, Media, Province } from '@/payload-types'
+import Link from 'next/link'
+import type { Breed, Breeder, City, Media, Province } from '@/payload-types'
+import { formatCityName } from '@/lib/format'
 
 export function BreederCard({ breeder }: { breeder: Breeder }) {
   const avatar = breeder.avatar as Media | undefined
+  const city = breeder.location?.city as City | null | undefined
   const province = breeder.location?.province as Province | null | undefined
-  const location = [breeder.location?.city, province?.name].filter(Boolean).join(', ')
+  const location = [formatCityName(city?.name), province?.name].filter(Boolean).join(', ')
   const breeds = ((breeder.breeds ?? []) as Breed[]).map((breed) => breed.name).filter(Boolean)
 
   return (
-    <a
+    <Link
       href={`/breeders/${breeder.slug}`}
       className="block w-56 shrink-0 snap-start overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
     >
@@ -35,6 +38,6 @@ export function BreederCard({ breeder }: { breeder: Breeder }) {
           <p className="m-0 mt-2 truncate text-[13px] opacity-60">{breeds.join(', ')}</p>
         )}
       </div>
-    </a>
+    </Link>
   )
 }

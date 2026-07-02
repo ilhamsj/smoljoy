@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     breeds: Breed;
     provinces: Province;
+    cities: City;
     breeders: Breeder;
     'parent-animals': ParentAnimal;
     litters: Litter;
@@ -98,6 +99,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     breeds: BreedsSelect<false> | BreedsSelect<true>;
     provinces: ProvincesSelect<false> | ProvincesSelect<true>;
+    cities: CitiesSelect<false> | CitiesSelect<true>;
     breeders: BreedersSelect<false> | BreedersSelect<true>;
     'parent-animals': ParentAnimalsSelect<false> | ParentAnimalsSelect<true>;
     litters: LittersSelect<false> | LittersSelect<true>;
@@ -227,6 +229,17 @@ export interface Province {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cities".
+ */
+export interface City {
+  id: string;
+  name: string;
+  province: string | Province;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "breeders".
  */
 export interface Breeder {
@@ -258,8 +271,8 @@ export interface Breeder {
   breeds?: (string | Breed)[] | null;
   location?: {
     address?: string | null;
-    city?: string | null;
     province?: (string | null) | Province;
+    city?: (string | null) | City;
     zip?: string | null;
     /**
      * @minItems 2
@@ -607,6 +620,10 @@ export interface PayloadLockedDocument {
         value: string | Province;
       } | null)
     | ({
+        relationTo: 'cities';
+        value: string | City;
+      } | null)
+    | ({
         relationTo: 'breeders';
         value: string | Breeder;
       } | null)
@@ -729,6 +746,16 @@ export interface ProvincesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cities_select".
+ */
+export interface CitiesSelect<T extends boolean = true> {
+  name?: T;
+  province?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "breeders_select".
  */
 export interface BreedersSelect<T extends boolean = true> {
@@ -744,8 +771,8 @@ export interface BreedersSelect<T extends boolean = true> {
     | T
     | {
         address?: T;
-        city?: T;
         province?: T;
+        city?: T;
         zip?: T;
         coordinates?: T;
       };
