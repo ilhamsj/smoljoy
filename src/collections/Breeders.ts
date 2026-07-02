@@ -30,9 +30,8 @@ export const Breeders: CollectionConfig = {
       fields: [
         { name: 'address', type: 'text' },
         { name: 'city', type: 'text' },
-        { name: 'state', type: 'text' },
+        { name: 'province', type: 'relationship', relationTo: 'provinces' },
         { name: 'zip', type: 'text' },
-        { name: 'country', type: 'text' },
         { name: 'coordinates', type: 'point' },
       ],
     },

@@ -7,6 +7,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { Users } from './collections/Users'
 import { Breeds } from './collections/Breeds'
 import { Breeders } from './collections/Breeders'
+import { Provinces } from './collections/Provinces'
 import { ParentAnimals } from './collections/ParentAnimals'
 import { Litters } from './collections/Litters'
 import { Pets } from './collections/Pets'
@@ -32,7 +33,7 @@ export default buildConfig({
       password: 'dev@example.com',
     },
   },
-  collections: [Users, Media, Breeds, Breeders, ParentAnimals, Litters, Pets],
+  collections: [Users, Media, Breeds, Provinces, Breeders, ParentAnimals, Litters, Pets],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

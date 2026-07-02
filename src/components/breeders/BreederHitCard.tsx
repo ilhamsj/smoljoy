@@ -5,7 +5,7 @@ export type BreederHit = BaseHit & {
   businessName: string
   slug: string
   city?: string
-  state?: string
+  province?: string
   breeds?: string[]
   verificationStatus?: string
   status?: string
@@ -13,7 +13,7 @@ export type BreederHit = BaseHit & {
 }
 
 export function BreederHitCard({ hit }: { hit: BreederHit }) {
-  const location = [hit.city, hit.state].filter(Boolean).join(', ')
+  const location = [hit.city, hit.province].filter(Boolean).join(', ')
 
   return (
     <Link

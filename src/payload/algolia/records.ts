@@ -32,7 +32,7 @@ export const breederToRecord = (doc: Breeder) => ({
   businessName: doc.businessName,
   slug: doc.slug,
   city: doc.location?.city,
-  state: doc.location?.state,
+  province: relationField(doc.location?.province, 'name'),
   breeds: doc.breeds?.map((b) => relationField(b, 'name')).filter(Boolean),
   verificationStatus: doc.verificationStatus,
   status: doc.status,

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import config from '@/payload.config'
-import type { Breed, Media, Pet } from '@/payload-types'
+import type { Breed, Media, Pet, Province } from '@/payload-types'
 
 export default async function BreederPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -40,9 +40,8 @@ export default async function BreederPage({ params }: { params: Promise<{ slug: 
   const breeds = (breeder.breeds ?? []) as Breed[]
   const avatar = breeder.avatar as Media | null | undefined
   const coverImage = breeder.coverImage as Media | null | undefined
-  const location = [breeder.location?.city, breeder.location?.state, breeder.location?.country]
-    .filter(Boolean)
-    .join(', ')
+  const province = breeder.location?.province as Province | null | undefined
+  const location = [breeder.location?.city, province?.name].filter(Boolean).join(', ')
 
   return (
     <div className="mx-auto max-w-3xl px-11 pb-11">

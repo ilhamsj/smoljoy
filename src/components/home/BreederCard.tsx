@@ -1,8 +1,9 @@
-import type { Breed, Breeder, Media } from '@/payload-types'
+import type { Breed, Breeder, Media, Province } from '@/payload-types'
 
 export function BreederCard({ breeder }: { breeder: Breeder }) {
   const avatar = breeder.avatar as Media | undefined
-  const location = [breeder.location?.city, breeder.location?.state].filter(Boolean).join(', ')
+  const province = breeder.location?.province as Province | null | undefined
+  const location = [breeder.location?.city, province?.name].filter(Boolean).join(', ')
   const breeds = ((breeder.breeds ?? []) as Breed[]).map((breed) => breed.name).filter(Boolean)
 
   return (

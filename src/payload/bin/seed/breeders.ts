@@ -1,18 +1,18 @@
 import { faker } from '@faker-js/faker'
-import { Breed, Breeder } from '@/payload-types'
+import { Breed, Breeder, Province } from '@/payload-types'
 import type { BasePayload } from 'payload'
 
-const INDONESIAN_CITIES: { city: string; state: string }[] = [
-  { city: 'Jakarta', state: 'DKI Jakarta' },
-  { city: 'Bandung', state: 'West Java' },
-  { city: 'Surabaya', state: 'East Java' },
-  { city: 'Yogyakarta', state: 'DI Yogyakarta' },
-  { city: 'Semarang', state: 'Central Java' },
-  { city: 'Denpasar', state: 'Bali' },
-  { city: 'Medan', state: 'North Sumatra' },
-  { city: 'Makassar', state: 'South Sulawesi' },
-  { city: 'Malang', state: 'East Java' },
-  { city: 'Bogor', state: 'West Java' },
+const INDONESIAN_CITIES: { city: string; province: string }[] = [
+  { city: 'Jakarta', province: 'DKI Jakarta' },
+  { city: 'Bandung', province: 'Jawa Barat' },
+  { city: 'Surabaya', province: 'Jawa Timur' },
+  { city: 'Yogyakarta', province: 'Daerah Istimewa Yogyakarta' },
+  { city: 'Semarang', province: 'Jawa Tengah' },
+  { city: 'Denpasar', province: 'Bali' },
+  { city: 'Medan', province: 'Sumatera Utara' },
+  { city: 'Makassar', province: 'Sulawesi Selatan' },
+  { city: 'Malang', province: 'Jawa Timur' },
+  { city: 'Bogor', province: 'Jawa Barat' },
 ]
 
 const BREEDER_COUNT = 50
@@ -21,7 +21,7 @@ function pickBreeds(breeds: Breed[], count: number) {
   return faker.helpers.arrayElements(breeds, { min: 1, max: count }).map((b) => b.id)
 }
 
-export async function breederSeed(payload: BasePayload, breeds: Breed[]) {
+export async function breederSeed(payload: BasePayload, breeds: Breed[], provinces: Province[]) {
   const existing = await payload.find({ collection: 'breeders', limit: 1 })
   if (existing.totalDocs > 0) {
     payload.logger.info('breeders: already seeded, skipping')
@@ -29,6 +29,8 @@ export async function breederSeed(payload: BasePayload, breeds: Breed[]) {
       .find({ collection: 'breeders', limit: BREEDER_COUNT * 2 })
       .then((res) => res.docs)
   }
+
+  const provinceByName = new Map(provinces.map((province) => [province.name, province.id]))
 
   const dogBreeds = breeds.filter((b) => b.species === 'dog')
   const catBreeds = breeds.filter((b) => b.species === 'cat')
@@ -58,9 +60,8 @@ export async function breederSeed(payload: BasePayload, breeds: Breed[]) {
         location: {
           address: faker.location.streetAddress(),
           city: location.city,
-          state: location.state,
+          province: provinceByName.get(location.province),
           zip: faker.location.zipCode(),
-          country: 'Indonesia',
         },
         yearsExperience: faker.number.int({ min: 1, max: 20 }),
         contactPhone: faker.phone.number(),
