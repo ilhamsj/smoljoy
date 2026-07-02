@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { getPayload } from 'payload'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import config from '@/payload.config'
@@ -120,14 +121,14 @@ export default async function BreederPage({ params }: { params: Promise<{ slug: 
           <h2 className="m-0 mb-3 text-base">Available pets</h2>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3">
             {(pets as Pet[]).map((pet) => (
-              <a
+              <Link
                 key={pet.id}
                 className="flex justify-between rounded-lg border border-neutral-700 px-4 py-3 text-inherit no-underline transition-colors hover:border-white"
                 href={`/pets/${pet.slug}`}
               >
                 <h3 className="m-0 text-sm">{pet.name}</h3>
                 {typeof pet.price === 'number' && <span>${pet.price.toLocaleString()}</span>}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

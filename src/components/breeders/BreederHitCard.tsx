@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { BaseHit } from 'instantsearch.js'
 
 export type BreederHit = BaseHit & {
@@ -15,7 +16,7 @@ export function BreederHitCard({ hit }: { hit: BreederHit }) {
   const location = [hit.city, hit.state].filter(Boolean).join(', ')
 
   return (
-    <a
+    <Link
       className="block overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
       href={`/breeders/${hit.slug}`}
     >
@@ -43,6 +44,6 @@ export function BreederHitCard({ hit }: { hit: BreederHit }) {
           <p className="m-0 mt-1 text-[13px] opacity-60">{hit.breeds.join(', ')}</p>
         )}
       </div>
-    </a>
+    </Link>
   )
 }

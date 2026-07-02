@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { BaseHit } from 'instantsearch.js'
 
 export type PetHit = BaseHit & {
@@ -13,7 +14,7 @@ export type PetHit = BaseHit & {
 
 export function PetHitCard({ hit }: { hit: PetHit }) {
   return (
-    <a
+    <Link
       className="block overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
       href={`/pets/${hit.slug}`}
     >
@@ -43,6 +44,6 @@ export function PetHitCard({ hit }: { hit: PetHit }) {
           {typeof hit.price === 'number' && <span>${hit.price.toLocaleString()}</span>}
         </div>
       </div>
-    </a>
+    </Link>
   )
 }

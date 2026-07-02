@@ -6,7 +6,11 @@ import { InfiniteBreedersGrid } from '@/components/breeders/InfiniteBreedersGrid
 
 export default function BreedersPage() {
   return (
-    <InstantSearch searchClient={algoliaSearchClient} indexName="breeders">
+    <InstantSearch
+      searchClient={algoliaSearchClient}
+      indexName="breeders"
+      future={{ preserveSharedStateOnUnmount: true }}
+    >
       <Configure hitsPerPage={12} />
       <div className="mx-auto max-w-6xl p-11">
         <h1>Find a trusted breeder</h1>

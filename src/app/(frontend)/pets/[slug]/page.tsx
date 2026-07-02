@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { getPayload } from 'payload'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import config from '@/payload.config'
@@ -51,12 +52,12 @@ export default async function PetPage({ params }: { params: Promise<{ slug: stri
 
         <p className="m-0 text-base opacity-80">{breed?.name}</p>
         {breeder?.slug && (
-          <a
+          <Link
             className="mt-1 inline-block text-sm text-inherit opacity-70"
             href={`/breeders/${breeder.slug}`}
           >
             {breeder.businessName}
-          </a>
+          </Link>
         )}
 
         <dl className="my-6 grid grid-cols-2 gap-x-6 gap-y-3">
