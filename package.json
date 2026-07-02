@@ -31,6 +31,7 @@
     "payload": "3.85.1",
     "react": "19.2.6",
     "react-dom": "19.2.6",
+    "react-instantsearch": "^7.38.0",
     "sharp": "0.34.2"
   },
   "devDependencies": {
@@ -43,6 +44,7 @@
     "@vitejs/plugin-react": "4.5.2",
     "eslint": "^9.16.0",
     "eslint-config-next": "16.2.6",
+    "instantsearch.js": "^4.104.0",
     "jsdom": "28.0.0",
     "prettier": "^3.4.2",
     "tsx": "4.21.0",
