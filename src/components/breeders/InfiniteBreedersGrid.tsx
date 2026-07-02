@@ -26,17 +26,17 @@ export function InfiniteBreedersGrid() {
   }, [isLastPage, showMore])
 
   if (items.length === 0) {
-    return <p className="breedersGrid__empty">No breeders found.</p>
+    return <p className="opacity-70">No breeders found.</p>
   }
 
   return (
     <>
-      <div className="breedersGrid">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
         {items.map((hit) => (
           <BreederHitCard key={hit.objectID} hit={hit} />
         ))}
       </div>
-      {!isLastPage && <div ref={sentinelRef} className="breedersGrid__sentinel" />}
+      {!isLastPage && <div ref={sentinelRef} className="h-px" />}
     </>
   )
 }

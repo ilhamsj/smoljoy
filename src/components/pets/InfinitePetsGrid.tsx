@@ -26,17 +26,17 @@ export function InfinitePetsGrid() {
   }, [isLastPage, showMore])
 
   if (items.length === 0) {
-    return <p className="petsGrid__empty">No pets found.</p>
+    return <p className="opacity-70">No pets found.</p>
   }
 
   return (
     <>
-      <div className="petsGrid">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
         {items.map((hit) => (
           <PetHitCard key={hit.objectID} hit={hit} />
         ))}
       </div>
-      {!isLastPage && <div ref={sentinelRef} className="petsGrid__sentinel" />}
+      {!isLastPage && <div ref={sentinelRef} className="h-px" />}
     </>
   )
 }

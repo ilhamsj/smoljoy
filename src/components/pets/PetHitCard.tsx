@@ -13,22 +13,32 @@ export type PetHit = BaseHit & {
 
 export function PetHitCard({ hit }: { hit: PetHit }) {
   return (
-    <a className="petCard" href={`/pets/${hit.slug}`}>
-      <div className="petCard__image">
+    <a
+      className="block overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
+      href={`/pets/${hit.slug}`}
+    >
+      <div className="relative aspect-square bg-neutral-800">
         {hit.image ? (
-          <img src={hit.image} alt={hit.name} loading="lazy" />
+          <img
+            className="h-full w-full object-cover"
+            src={hit.image}
+            alt={hit.name}
+            loading="lazy"
+          />
         ) : (
-          <div className="petCard__placeholder" />
+          <div className="h-full w-full bg-neutral-700" />
         )}
         {hit.status && hit.status !== 'available' && (
-          <span className="petCard__badge">{hit.status}</span>
+          <span className="absolute top-2 right-2 rounded bg-white px-2 py-0.5 text-xs uppercase text-black">
+            {hit.status}
+          </span>
         )}
       </div>
-      <div className="petCard__body">
-        <h3>{hit.name}</h3>
-        <p className="petCard__breed">{hit.breed}</p>
-        <p className="petCard__breeder">{hit.breederName}</p>
-        <div className="petCard__footer">
+      <div className="px-4 py-3">
+        <h3 className="m-0 mb-1 text-lg leading-6">{hit.name}</h3>
+        <p className="m-0 text-sm opacity-80">{hit.breed}</p>
+        <p className="m-0 mb-2 text-[13px] opacity-60">{hit.breederName}</p>
+        <div className="flex justify-between text-sm opacity-90">
           <span>{hit.gender}</span>
           {typeof hit.price === 'number' && <span>${hit.price.toLocaleString()}</span>}
         </div>

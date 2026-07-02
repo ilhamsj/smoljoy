@@ -15,22 +15,32 @@ export function BreederHitCard({ hit }: { hit: BreederHit }) {
   const location = [hit.city, hit.state].filter(Boolean).join(', ')
 
   return (
-    <a className="breederCard" href={`/breeders/${hit.slug}`}>
-      <div className="breederCard__image">
+    <a
+      className="block overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
+      href={`/breeders/${hit.slug}`}
+    >
+      <div className="relative aspect-square bg-neutral-800">
         {hit.image ? (
-          <img src={hit.image} alt={hit.businessName} loading="lazy" />
+          <img
+            className="h-full w-full object-cover"
+            src={hit.image}
+            alt={hit.businessName}
+            loading="lazy"
+          />
         ) : (
-          <div className="breederCard__placeholder" />
+          <div className="h-full w-full bg-neutral-700" />
         )}
         {hit.verificationStatus === 'verified' && (
-          <span className="breederCard__badge">Verified</span>
+          <span className="absolute top-2 right-2 rounded bg-white px-2 py-0.5 text-xs uppercase text-black">
+            Verified
+          </span>
         )}
       </div>
-      <div className="breederCard__body">
-        <h3>{hit.businessName}</h3>
-        {location && <p className="breederCard__location">{location}</p>}
+      <div className="px-4 py-3">
+        <h3 className="m-0 mb-1 text-lg leading-6">{hit.businessName}</h3>
+        {location && <p className="m-0 text-sm opacity-80">{location}</p>}
         {hit.breeds && hit.breeds.length > 0 && (
-          <p className="breederCard__breeds">{hit.breeds.join(', ')}</p>
+          <p className="m-0 mt-1 text-[13px] opacity-60">{hit.breeds.join(', ')}</p>
         )}
       </div>
     </a>

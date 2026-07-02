@@ -1,59 +1,74 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
 import { getPayload } from 'payload'
-import React from 'react'
-import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
-import './styles.css'
+import { Hero } from '@/components/home/Hero'
+import { ScrollRow } from '@/components/home/ScrollRow'
+import { PetCard } from '@/components/home/PetCard'
+import { BreederCard } from '@/components/home/BreederCard'
+import { BreedsSection } from '@/components/home/BreedsSection'
+import { EthicsSection } from '@/components/home/EthicsSection'
+import { WhyFoundedSection } from '@/components/home/WhyFoundedSection'
+import { ValuesSection } from '@/components/home/ValuesSection'
+import { BreederCtaSection } from '@/components/home/BreederCtaSection'
 
 export default async function HomePage() {
-  const headers = await getHeaders()
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+  const [{ docs: pets }, { docs: breeders }, { docs: breeds }] = await Promise.all([
+    payload.find({
+      collection: 'pets',
+      sort: '-createdAt',
+      depth: 2,
+      limit: 10,
+    }),
+    payload.find({
+      collection: 'breeders',
+      where: { status: { equals: 'active' } },
+      sort: '-createdAt',
+      depth: 1,
+      limit: 10,
+    }),
+    payload.find({
+      collection: 'breeds',
+      sort: 'name',
+      limit: 100,
+    }),
+  ])
 
   return (
     <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
+      <Hero />
+
+      {pets.length > 0 && (
+        <ScrollRow
+          title="Pet Terbaru"
+          subtitle="10 pet yang baru saja bergabung di Smoljoy"
+          viewAllHref="/pets"
+        >
+          {pets.map((pet) => (
+            <PetCard key={pet.id} pet={pet} />
+          ))}
+        </ScrollRow>
+      )}
+
+      {breeders.length > 0 && (
+        <ScrollRow
+          title="Breeder Terbaru"
+          subtitle="Breeder yang baru saja bergabung dan terverifikasi"
+          viewAllHref="/breeders"
+        >
+          {breeders.map((breeder) => (
+            <BreederCard key={breeder.id} breeder={breeder} />
+          ))}
+        </ScrollRow>
+      )}
+
+      <BreedsSection breeds={breeds} />
+      <EthicsSection />
+      <WhyFoundedSection />
+      <ValuesSection />
+      <BreederCtaSection />
     </div>
   )
 }
