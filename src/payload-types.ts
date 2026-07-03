@@ -356,6 +356,11 @@ export interface Breeder {
 export interface Litter {
   id: string;
   label: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   breeder: string | Breeder;
   breed: string | Breed;
   dam?: (string | null) | ParentAnimal;
@@ -833,6 +838,8 @@ export interface ParentAnimalsSelect<T extends boolean = true> {
  */
 export interface LittersSelect<T extends boolean = true> {
   label?: T;
+  generateSlug?: T;
+  slug?: T;
   breeder?: T;
   breed?: T;
   dam?: T;

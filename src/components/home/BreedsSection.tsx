@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Breed } from '@/payload-types'
 
 export function BreedsSection({ breeds }: { breeds: Breed[] }) {
@@ -11,13 +12,13 @@ export function BreedsSection({ breeds }: { breeds: Breed[] }) {
       </p>
       <div className="mt-6 flex flex-wrap gap-2.5">
         {breeds.map((breed) => (
-          <a
+          <Link
             key={breed.id}
             href="/pets"
             className="rounded-full border border-neutral-700 px-4 py-2 text-sm text-neutral-200 no-underline transition-colors hover:border-white hover:text-white"
           >
             {breed.species === 'cat' ? '🐱' : '🐶'} {breed.name}
-          </a>
+          </Link>
         ))}
       </div>
     </section>

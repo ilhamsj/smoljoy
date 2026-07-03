@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from 'payload'
 import type { Litter } from '@/payload-types'
 import { algoliaSyncHooks } from '@/payload/hooks/algoliaSync'
 import { litterToRecord } from '@/payload/algolia/records'
@@ -18,6 +19,7 @@ export const Litters: CollectionConfig = {
   hooks: litterHooks,
   fields: [
     { name: 'label', type: 'text', required: true },
+    slugField({ useAsSlug: 'label' }),
     { name: 'breeder', type: 'relationship', relationTo: 'breeders', required: true },
     { name: 'breed', type: 'relationship', relationTo: 'breeds', required: true },
     { name: 'dam', type: 'relationship', relationTo: 'parent-animals' },

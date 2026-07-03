@@ -34,11 +34,13 @@ export async function litterSeed(
     for (let j = 0; j < LITTERS_PER_BREEDER; j++) {
       const dateOfBirth = faker.date.past({ years: 2 })
       const priceMin = faker.number.int({ min: 800, max: 2000 })
+      const label = `${sire?.name ?? 'Sire'} x ${dam?.name ?? 'Dam'} - Litter ${j + 1}`
 
       const litter = await payload.create({
         collection: 'litters',
         data: {
-          label: `${sire?.name ?? 'Sire'} x ${dam?.name ?? 'Dam'} - Litter ${j + 1}`,
+          label,
+          slug: faker.helpers.slugify(`${label}-${breeder.id}`).toLowerCase(),
           breeder: breeder.id,
           breed,
           dam: dam?.id,

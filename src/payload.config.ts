@@ -52,7 +52,7 @@ export default buildConfig({
       defaultJobsCollection.admin.hidden = false
       return defaultJobsCollection
     },
-    deleteJobOnComplete: false,
+    deleteJobOnComplete: true,
     tasks: [syncToAlgoliaTask],
     autoRun: [
       {

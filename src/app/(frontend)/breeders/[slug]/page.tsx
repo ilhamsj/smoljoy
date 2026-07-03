@@ -144,7 +144,12 @@ export default async function BreederPage({ params }: { params: Promise<{ slug: 
                 key={litter.id}
                 className="flex justify-between border-b border-neutral-700 py-2.5 last:border-b-0"
               >
-                <span>{litter.label}</span>
+                <Link
+                  className="text-inherit no-underline hover:underline"
+                  href={`/litters/${litter.slug}`}
+                >
+                  {litter.label}
+                </Link>
                 {typeof litter.priceMin === 'number' && (
                   <span className="opacity-70">
                     ${litter.priceMin.toLocaleString()}

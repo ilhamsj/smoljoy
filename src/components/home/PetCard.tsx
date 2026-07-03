@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Breed, Breeder, Media, Pet } from '@/payload-types'
 
 export function PetCard({ pet }: { pet: Pet }) {
@@ -6,7 +7,7 @@ export function PetCard({ pet }: { pet: Pet }) {
   const image = pet.images?.[0] as Media | undefined
 
   return (
-    <a
+    <Link
       href={`/pets/${pet.slug}`}
       className="block w-56 shrink-0 snap-start overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
     >
@@ -35,6 +36,6 @@ export function PetCard({ pet }: { pet: Pet }) {
           <p className="m-0 text-sm font-semibold opacity-90">${pet.price.toLocaleString()}</p>
         )}
       </div>
-    </a>
+    </Link>
   )
 }

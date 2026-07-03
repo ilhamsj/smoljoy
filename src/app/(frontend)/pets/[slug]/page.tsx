@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import config from '@/payload.config'
-import type { Breed, Breeder, Media } from '@/payload-types'
+import type { Breed, Breeder, Litter, Media } from '@/payload-types'
 
 export default async function PetPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -22,6 +22,7 @@ export default async function PetPage({ params }: { params: Promise<{ slug: stri
 
   const breed = pet.breed as Breed
   const breeder = pet.breeder as Breeder
+  const litter = pet.litter as Litter | null | undefined
   const images = (pet.images ?? []) as Media[]
 
   return (
@@ -57,6 +58,14 @@ export default async function PetPage({ params }: { params: Promise<{ slug: stri
             href={`/breeders/${breeder.slug}`}
           >
             {breeder.businessName}
+          </Link>
+        )}
+        {litter?.slug && (
+          <Link
+            className="mt-1 block text-sm text-inherit opacity-70"
+            href={`/litters/${litter.slug}`}
+          >
+            From litter: {litter.label}
           </Link>
         )}
 
