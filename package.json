@@ -32,7 +32,8 @@
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "react-instantsearch": "^7.38.0",
-    "sharp": "0.34.2"
+    "sharp": "0.34.2",
+    "swiper": "^14.0.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.5.0",
