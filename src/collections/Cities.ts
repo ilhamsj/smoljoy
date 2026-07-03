@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Cities: CollectionConfig = {
   slug: 'cities',
   admin: {
+    group: 'Location',
     useAsTitle: 'name',
   },
   access: {

@@ -9,6 +9,7 @@ const breederHooks = algoliaSyncHooks<Breeder>('breeders', breederToRecord)
 export const Breeders: CollectionConfig = {
   slug: 'breeders',
   admin: {
+    group: 'Master Data',
     useAsTitle: 'businessName',
     defaultColumns: ['businessName', 'verificationStatus', 'status'],
   },
@@ -23,6 +24,7 @@ export const Breeders: CollectionConfig = {
     { name: 'bio', type: 'richText' },
     { name: 'avatar', type: 'upload', relationTo: 'media' },
     { name: 'coverImage', type: 'upload', relationTo: 'media' },
+    { name: 'gallery', type: 'upload', relationTo: 'media', hasMany: true },
     { name: 'breeds', type: 'relationship', relationTo: 'breeds', hasMany: true },
     {
       name: 'location',

@@ -268,6 +268,7 @@ export interface Breeder {
   } | null;
   avatar?: (string | null) | Media;
   coverImage?: (string | null) | Media;
+  gallery?: (string | Media)[] | null;
   breeds?: (string | Breed)[] | null;
   location?: {
     address?: string | null;
@@ -766,6 +767,7 @@ export interface BreedersSelect<T extends boolean = true> {
   bio?: T;
   avatar?: T;
   coverImage?: T;
+  gallery?: T;
   breeds?: T;
   location?:
     | T

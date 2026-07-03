@@ -8,6 +8,7 @@ const litterHooks = algoliaSyncHooks<Litter>('litters', litterToRecord)
 export const Litters: CollectionConfig = {
   slug: 'litters',
   admin: {
+    group: 'Master Data',
     useAsTitle: 'label',
     defaultColumns: ['label', 'breeder', 'breed', 'status', 'dateOfBirth'],
   },

@@ -9,6 +9,7 @@ const petHooks = algoliaSyncHooks<Pet>('pets', petToRecord)
 export const Pets: CollectionConfig = {
   slug: 'pets',
   admin: {
+    group: 'Master Data',
     useAsTitle: 'name',
     defaultColumns: ['name', 'breed', 'gender', 'status', 'price'],
   },

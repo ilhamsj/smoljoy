@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const ParentAnimals: CollectionConfig = {
   slug: 'parent-animals',
   admin: {
+    group: 'Master Data',
     useAsTitle: 'name',
     defaultColumns: ['name', 'breed', 'breeder'],
   },
