@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from 'payload'
 
 export const ParentAnimals: CollectionConfig = {
   slug: 'parent-animals',
@@ -12,6 +13,7 @@ export const ParentAnimals: CollectionConfig = {
   },
   fields: [
     { name: 'name', type: 'text', required: true },
+    slugField({ useAsSlug: 'name' }),
     { name: 'breeder', type: 'relationship', relationTo: 'breeders', required: true },
     { name: 'breed', type: 'relationship', relationTo: 'breeds', required: true },
     { name: 'sire', type: 'relationship', relationTo: 'parent-animals' },

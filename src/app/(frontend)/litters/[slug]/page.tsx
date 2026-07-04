@@ -96,19 +96,55 @@ export default async function LitterPage({ params }: { params: Promise<{ slug: s
             <dd className="m-0 text-[15px]">{litter.totalPuppies}</dd>
           </div>
         )}
-        {dam?.name && (
-          <div>
-            <dt className="text-xs uppercase opacity-60">Dam</dt>
-            <dd className="m-0 text-[15px]">{dam.name}</dd>
-          </div>
-        )}
-        {sire?.name && (
-          <div>
-            <dt className="text-xs uppercase opacity-60">Sire</dt>
-            <dd className="m-0 text-[15px]">{sire.name}</dd>
-          </div>
-        )}
       </dl>
+
+      {(sire || dam) && (
+        <div className="mb-6 grid grid-cols-2 gap-4">
+          {[
+            { label: 'Sire', animal: sire },
+            { label: 'Dam', animal: dam },
+          ].map(({ label, animal }) => {
+            if (!animal) return null
+            const animalBreed = animal.breed as Breed | undefined
+            const animalImage = animal.images?.[0] as Media | undefined
+            const content = (
+              <>
+                <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-full bg-neutral-800">
+                  {animalImage?.url ? (
+                    <img
+                      className="h-full w-full object-cover"
+                      src={animalImage.url}
+                      alt={animal.name}
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-neutral-700" />
+                  )}
+                </div>
+                <div>
+                  <p className="m-0 text-xs uppercase opacity-60">{label}</p>
+                  <p className="m-0 text-[15px]">{animal.name}</p>
+                  {animalBreed?.name && (
+                    <p className="m-0 text-xs opacity-60">{animalBreed.name}</p>
+                  )}
+                </div>
+              </>
+            )
+            return animal.slug ? (
+              <Link
+                key={label}
+                href={`/parents/${animal.slug}`}
+                className="flex items-center gap-3 rounded-lg border border-neutral-700 p-3 text-inherit no-underline transition-colors hover:border-white"
+              >
+                {content}
+              </Link>
+            ) : (
+              <div key={label} className="flex items-center gap-3 rounded-lg border border-neutral-700 p-3">
+                {content}
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       {typeof litter.priceMin === 'number' && (
         <div className="mb-6 text-2xl font-semibold">

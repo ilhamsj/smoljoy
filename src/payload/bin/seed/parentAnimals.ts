@@ -17,13 +17,26 @@ export async function parentAnimalSeed(payload: BasePayload, breeders: Breeder[]
     const breed = typeof breedId === 'string' ? breedId : breedId?.id
     if (!breed) continue
 
+    const sireName = faker.person.firstName('male')
+    const damName = faker.person.firstName('female')
+
     const sire = await payload.create({
       collection: 'parent-animals',
-      data: { name: faker.person.firstName('male'), breeder: breeder.id, breed },
+      data: {
+        name: sireName,
+        slug: faker.helpers.slugify(`${sireName}-${breeder.id}-sire`).toLowerCase(),
+        breeder: breeder.id,
+        breed,
+      },
     })
     const dam = await payload.create({
       collection: 'parent-animals',
-      data: { name: faker.person.firstName('female'), breeder: breeder.id, breed },
+      data: {
+        name: damName,
+        slug: faker.helpers.slugify(`${damName}-${breeder.id}-dam`).toLowerCase(),
+        breeder: breeder.id,
+        breed,
+      },
     })
     parentAnimals.push(sire, dam)
 
