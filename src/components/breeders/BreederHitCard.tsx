@@ -17,10 +17,10 @@ export function BreederHitCard({ hit }: { hit: BreederHit }) {
 
   return (
     <Link
-      className="block overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
+      className="block overflow-hidden rounded-xl border border-gray-200 bg-white text-inherit no-underline transition-colors hover:border-gray-400"
       href={`/breeders/${hit.slug}`}
     >
-      <div className="relative aspect-square bg-neutral-800">
+      <div className="relative aspect-square bg-gray-100">
         {hit.image ? (
           <img
             className="h-full w-full object-cover"
@@ -29,19 +29,19 @@ export function BreederHitCard({ hit }: { hit: BreederHit }) {
             loading="lazy"
           />
         ) : (
-          <div className="h-full w-full bg-neutral-700" />
+          <div className="h-full w-full bg-gray-200" />
         )}
         {hit.verificationStatus === 'verified' && (
-          <span className="absolute top-2 right-2 rounded bg-white px-2 py-0.5 text-xs uppercase text-black">
-            Verified
+          <span className="absolute top-2 right-2 rounded bg-green-50 px-2 py-0.5 text-xs uppercase text-green-700">
+            ✓ Verified
           </span>
         )}
       </div>
       <div className="px-4 py-3">
-        <h3 className="m-0 mb-1 text-lg leading-6">{hit.businessName}</h3>
-        {location && <p className="m-0 text-sm opacity-80">{location}</p>}
+        <h3 className="m-0 mb-1 text-lg leading-6 text-gray-900">{hit.businessName}</h3>
+        {location && <p className="m-0 text-sm text-gray-500">{location}</p>}
         {hit.breeds && hit.breeds.length > 0 && (
-          <p className="m-0 mt-1 text-[13px] opacity-60">{hit.breeds.join(', ')}</p>
+          <p className="m-0 mt-1 text-[13px] text-gray-400">{hit.breeds.join(', ')}</p>
         )}
       </div>
     </Link>

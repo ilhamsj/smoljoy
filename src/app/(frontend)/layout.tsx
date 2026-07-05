@@ -14,7 +14,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="id">
-      <body className="bg-black text-white">
+      <body className="bg-white text-gray-900">
         <Navbar />
         <main>{children}</main>
         <Footer />

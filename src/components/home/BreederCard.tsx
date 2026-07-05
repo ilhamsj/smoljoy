@@ -12,9 +12,9 @@ export function BreederCard({ breeder }: { breeder: Breeder }) {
   return (
     <Link
       href={`/breeders/${breeder.slug}`}
-      className="block w-56 shrink-0 snap-start overflow-hidden rounded-xl border border-neutral-700 bg-neutral-950 text-inherit no-underline transition-colors hover:border-white"
+      className="block w-56 shrink-0 snap-start overflow-hidden rounded-xl border border-gray-200 bg-white text-inherit no-underline transition-colors hover:border-gray-900"
     >
-      <div className="relative aspect-square bg-neutral-800">
+      <div className="relative aspect-square bg-gray-100">
         {avatar?.url ? (
           <img
             className="h-full w-full object-cover"
@@ -23,19 +23,21 @@ export function BreederCard({ breeder }: { breeder: Breeder }) {
             loading="lazy"
           />
         ) : (
-          <div className="h-full w-full bg-neutral-700" />
+          <div className="h-full w-full bg-gray-200" />
         )}
         {breeder.verificationStatus === 'verified' && (
-          <span className="absolute top-2 right-2 rounded bg-white px-2 py-0.5 text-xs uppercase text-black">
-            Verified
+          <span className="absolute top-2 right-2 rounded bg-green-50 px-2 py-0.5 text-xs uppercase text-green-700">
+            ✓ Verified
           </span>
         )}
       </div>
       <div className="px-4 py-3">
-        <h3 className="m-0 mb-1 truncate text-lg leading-6">{breeder.businessName}</h3>
-        {location && <p className="m-0 truncate text-sm opacity-80">{location}</p>}
+        <h3 className="m-0 mb-1 truncate text-lg leading-6 text-gray-900">
+          {breeder.businessName}
+        </h3>
+        {location && <p className="m-0 truncate text-sm text-gray-500">{location}</p>}
         {breeds.length > 0 && (
-          <p className="m-0 mt-2 truncate text-[13px] opacity-60">{breeds.join(', ')}</p>
+          <p className="m-0 mt-2 truncate text-[13px] text-gray-500">{breeds.join(', ')}</p>
         )}
       </div>
     </Link>

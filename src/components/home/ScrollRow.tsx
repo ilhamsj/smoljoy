@@ -18,13 +18,13 @@ export function ScrollRow({
     <section id={id} className="mx-auto max-w-6xl px-6 py-14">
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <h2 className="m-0 text-2xl font-bold text-white">{title}</h2>
-          {subtitle && <p className="mt-1 text-sm text-neutral-400">{subtitle}</p>}
+          <h2 className="m-0 text-2xl font-bold text-gray-900">{title}</h2>
+          {subtitle && <p className="mt-1 text-sm text-gray-500">{subtitle}</p>}
         </div>
         {viewAllHref && (
           <Link
             href={viewAllHref}
-            className="shrink-0 text-sm text-neutral-300 no-underline transition-colors hover:text-white"
+            className="shrink-0 text-sm text-blue-600 no-underline transition-colors hover:underline"
           >
             Lihat semua →
           </Link>

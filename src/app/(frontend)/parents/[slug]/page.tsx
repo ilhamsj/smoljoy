@@ -54,7 +54,7 @@ export default async function ParentAnimalPage({
           images.map((image) => (
             <div
               key={image.id}
-              className="aspect-square overflow-hidden rounded-xl bg-neutral-800"
+              className="aspect-square overflow-hidden rounded-xl bg-gray-100"
             >
               <img
                 className="h-full w-full object-cover"
@@ -64,16 +64,16 @@ export default async function ParentAnimalPage({
             </div>
           ))
         ) : (
-          <div className="aspect-square rounded-xl bg-neutral-700" />
+          <div className="aspect-square rounded-xl bg-gray-100" />
         )}
       </div>
 
       <div className="mt-6">
-        <h1 className="mb-1">{parent.name}</h1>
-        <p className="m-0 text-base opacity-80">{breed?.name}</p>
+        <h1 className="mb-1 text-gray-900">{parent.name}</h1>
+        <p className="m-0 text-base text-gray-500">{breed?.name}</p>
         {breeder?.slug && (
           <Link
-            className="mt-1 inline-block text-sm text-inherit opacity-70"
+            className="mt-1 inline-block text-sm text-gray-500 hover:text-gray-900"
             href={`/breeders/${breeder.slug}`}
           >
             {breeder.businessName}
@@ -85,10 +85,10 @@ export default async function ParentAnimalPage({
         <dl className="my-6 grid grid-cols-2 gap-x-6 gap-y-3">
           {sire?.name && (
             <div>
-              <dt className="text-xs uppercase opacity-60">Sire</dt>
-              <dd className="m-0 text-[15px]">
+              <dt className="text-xs uppercase text-gray-500">Sire</dt>
+              <dd className="m-0 text-[15px] text-gray-900">
                 {sire.slug ? (
-                  <Link className="text-inherit no-underline hover:underline" href={`/parents/${sire.slug}`}>
+                  <Link className="text-blue-600 no-underline hover:underline" href={`/parents/${sire.slug}`}>
                     {sire.name}
                   </Link>
                 ) : (
@@ -99,10 +99,10 @@ export default async function ParentAnimalPage({
           )}
           {dam?.name && (
             <div>
-              <dt className="text-xs uppercase opacity-60">Dam</dt>
-              <dd className="m-0 text-[15px]">
+              <dt className="text-xs uppercase text-gray-500">Dam</dt>
+              <dd className="m-0 text-[15px] text-gray-900">
                 {dam.slug ? (
-                  <Link className="text-inherit no-underline hover:underline" href={`/parents/${dam.slug}`}>
+                  <Link className="text-blue-600 no-underline hover:underline" href={`/parents/${dam.slug}`}>
                     {dam.name}
                   </Link>
                 ) : (
@@ -115,9 +115,9 @@ export default async function ParentAnimalPage({
       )}
 
       {parent.healthClearances && parent.healthClearances.length > 0 && (
-        <div className="mt-6 border-t border-neutral-700 pt-6">
-          <h2 className="m-0 mb-3 text-base">Health clearances</h2>
-          <ul className="m-0 list-disc pl-5">
+        <div className="mt-6 border-t border-gray-200 pt-6">
+          <h2 className="m-0 mb-3 text-base text-gray-900">Health clearances</h2>
+          <ul className="m-0 list-disc pl-5 text-gray-900">
             {parent.healthClearances.map((clearance, index) => (
               <li key={clearance.id ?? index}>
                 {clearance.test}
@@ -129,16 +129,16 @@ export default async function ParentAnimalPage({
       )}
 
       {litters.length > 0 && (
-        <div className="mt-6 border-t border-neutral-700 pt-6">
-          <h2 className="m-0 mb-3 text-base">Litters</h2>
+        <div className="mt-6 border-t border-gray-200 pt-6">
+          <h2 className="m-0 mb-3 text-base text-gray-900">Litters</h2>
           <ul className="m-0 flex list-none flex-col gap-2 p-0">
             {litters.map((litter) => (
               <li
                 key={litter.id}
-                className="flex justify-between border-b border-neutral-700 py-2.5 last:border-b-0"
+                className="flex justify-between border-b border-gray-100 py-2.5 last:border-b-0"
               >
                 <Link
-                  className="text-inherit no-underline hover:underline"
+                  className="text-blue-600 no-underline hover:underline"
                   href={`/litters/${litter.slug}`}
                 >
                   {litter.label}

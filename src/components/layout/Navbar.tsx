@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { Logo } from '@/components/ui/Logo'
 
 const NAV_LINKS = [
   { label: 'Cari Pet', href: '/pets' },
@@ -13,35 +15,35 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-800 bg-black/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="/" className="text-xl font-bold tracking-tight text-white no-underline">
-          smoljoy
-        </a>
+        <Link href="/" className="text-rose-500 no-underline">
+          <Logo className="h-6 w-auto" />
+        </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-neutral-300 no-underline transition-colors hover:text-white"
+              className="text-sm text-gray-600 no-underline transition-colors hover:text-gray-900"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <a
+        <Link
           href="/breeders"
-          className="hidden rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black no-underline transition-opacity hover:opacity-85 md:inline-block"
+          className="hidden rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white no-underline transition-colors hover:bg-rose-600 md:inline-block"
         >
           Temukan Breeder
-        </a>
+        </Link>
 
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-700 text-white md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-900 md:hidden"
           aria-label="Buka menu"
           aria-expanded={open}
         >
@@ -51,24 +53,24 @@ export function Navbar() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-neutral-800 px-6 py-4 md:hidden">
+        <nav className="flex flex-col gap-1 border-t border-gray-200 px-6 py-4 md:hidden">
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="rounded-lg px-2 py-2.5 text-sm text-neutral-300 no-underline transition-colors hover:bg-neutral-900 hover:text-white"
+              className="rounded-lg px-2 py-2.5 text-sm text-gray-600 no-underline transition-colors hover:bg-gray-50 hover:text-gray-900"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
-          <a
+          <Link
             href="/breeders"
             onClick={() => setOpen(false)}
-            className="mt-2 rounded-lg bg-white px-4 py-2.5 text-center text-sm font-semibold text-black no-underline"
+            className="mt-2 rounded-full bg-rose-500 px-4 py-2.5 text-center text-sm font-semibold text-white no-underline"
           >
             Temukan Breeder
-          </a>
+          </Link>
         </nav>
       )}
     </header>
